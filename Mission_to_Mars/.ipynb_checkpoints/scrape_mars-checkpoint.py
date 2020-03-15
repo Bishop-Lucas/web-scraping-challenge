@@ -11,7 +11,7 @@ def scrape_all():
     news_title, news_paragraph = mars_news(browser)
 
     # Run all scraping functions and store in dictionary.
-    mars_data = {
+    data = {
         "news_title": news_title,
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
@@ -23,7 +23,7 @@ def scrape_all():
 
     # Stop webdriver and return data
     browser.quit()
-    return mars_data
+    return data
 
 
 def mars_news(browser):
@@ -148,15 +148,15 @@ def twitter_weather(browser):
 
 def mars_facts():
     try:
-        mars_facts = pd.read_html("http://space-facts.com/mars/")[0]
+        df = pd.read_html("http://space-facts.com/mars/")[0]
     except BaseException:
         return None
 
-    mars_facts.columns = ["description", "value"]
-    mars_facts.set_index("description", inplace=True)
+    df.columns = ["description", "value"]
+    df.set_index("description", inplace=True)
 
     # Add some bootstrap styling to <table>
-    return mars_facts.to_html(classes="table table-striped")
+    return df.to_html(classes="table table-striped")
 
 
 if __name__ == "__main__":
